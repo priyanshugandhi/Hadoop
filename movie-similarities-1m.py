@@ -9,7 +9,7 @@ from math import sqrt
 
 def loadMovieNames():
     movieNames = {}
-    with open("hdfs://localhost:4040/movies.dat") as f:
+    with open("hdfs://http://172.31.78.37:4040/movies.dat") as f:
         for line in f:
             fields = line.split("::")
             movieNames[int(fields[0])] = fields[1].decode('ascii', 'ignore')
@@ -50,7 +50,7 @@ sc = SparkContext(conf = conf)
 print("\nLoading movie names...")
 nameDict = loadMovieNames()
 
-data = sc.textFile("hdfs://localhost:4040/ratings.dat")
+data = sc.textFile("hdfs://http://172.31.78.37:4040/ratings.dat")
 
 # Map ratings to key / value pairs: user ID => movie ID, rating
 ratings = data.map(lambda l: l.split("::")).map(lambda l: (int(l[0]), (int(l[1]), float(l[2]))))
